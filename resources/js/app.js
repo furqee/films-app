@@ -1,32 +1,66 @@
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
+import Vue from "vue";
+import App from "./components/App";
+import router from "./router";
+import store from "./store";
+import axios from "axios";
+import {extend} from 'vee-validate';
+import {required, email, confirmed, min } from 'vee-validate/dist/rules';
+import { ValidationProvider, ValidationObserver } from 'vee-validate';
 
-require('./bootstrap');
+Vue.component('ValidationProvider', ValidationProvider);
+Vue.component('ValidationObserver', ValidationObserver);
 
-window.Vue = require('vue').default;
-
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
-
-// const files = require.context('./', true, /\.vue$/i)
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
-
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
-
-const app = new Vue({
-    el: '#app',
+extend('required', {
+    ...required,
+    message: 'This field is required.'
 });
+
+extend('email', {
+    ...email,
+    message: 'This field must be valid email.'
+});
+
+extend('confirmed', {
+    ...confirmed,
+    message: 'Password and Confirm password must be same.'
+});
+
+extend('min', {
+    ...min,
+    message: 'Minimum 5 characters required.'
+});
+
+import VueSweetalert2 from 'vue-sweetalert2';
+
+// If you don't need the styles, do not connect
+import 'sweetalert2/dist/sweetalert2.min.css';
+
+Vue.use(VueSweetalert2);
+
+Vue.config.productionTip = false;
+
+axios.defaults.withCredentials = true;
+
+axios.interceptors.response.use(
+    response => response,
+    error => {
+        if (error.response.status === 422) {
+            store.commit("setErrors", error.response.data.errors);
+        } else if (error.response.status === 401) {
+            store.commit("auth/setUserData", null);
+            localStorage.removeItem("authToken");
+            router.push({ name: "Login" });
+        } else {
+            return Promise.reject(error);
+        }
+    }
+);
+
+/**
+ * Initialize App
+ */
+new Vue({
+    router,
+    store,
+    render: h => h(App)
+}).$mount("#app");
