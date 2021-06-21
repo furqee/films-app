@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CountryController;
+use App\Http\Controllers\FilmController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,9 +20,26 @@ Route::post('login', [AuthController::class, 'login'])->name('login');
 Route::post('register', [AuthController::class, 'register'])->name('register');
 
 /**
- * User Authenticated routes
+ * Authenticated routes
  */
 Route::group(['middleware' => ['auth:sanctum']], function () {
+    /**
+     * User
+     */
     Route::get('user', [AuthController::class, 'user'])->name('user');
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+    /**
+     * Film
+     */
+    Route::resource('films', FilmController::class)->only(['store', 'destroy']);
+    Route::get('countryList', [CountryController::class, 'countryList'])->name('countryList');
 });
+
+/**
+ * Guest routes Film
+ */
+Route::resource('films', FilmController::class)
+    ->only(['index', 'show'])
+    ->parameters([
+        'films' => 'slug'
+    ]);

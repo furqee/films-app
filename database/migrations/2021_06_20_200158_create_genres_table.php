@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUserVerificationsTable extends Migration
+class CreateGenresTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class CreateUserVerificationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_verifications', function (Blueprint $table) {
+        Schema::create('genres', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id')->unique();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->string('uuid')->unique();
-            $table->timestamp('expired_at');
+            $table->string('name')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +27,6 @@ class CreateUserVerificationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_verifications');
+        Schema::dropIfExists('genres');
     }
 }

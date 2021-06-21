@@ -8,6 +8,9 @@ import Register from "./components/Auth/Register";
 import Profile from "./components/Auth/Profile";
 import Verify from "./components/Auth/Verify";
 import NotFoundComponent from "./components/NotFoundComponent";
+import Index from "./components/Films/Index";
+import Create from "./components/Films/Create";
+import Detail from "./components/Films/Detail";
 
 /**
  * Inject Vue router in Vue
@@ -61,6 +64,27 @@ const routes = [
         name: "Profile",
         beforeEnter: auth,
         component: Profile,
+    },
+    {
+        path: '/',
+        redirect: '/films'
+    },
+    {
+        path: "/films",
+        name: "Films",
+        component: Index,
+    },
+    {
+        path: "/film/create",
+        name: "Create a Film",
+        beforeEnter: auth,
+        component: Create,
+    },
+    {
+        path: "/film/:slug",
+        name: "Film Detail",
+        props: true,
+        component: Detail,
     },
     {
         path: '*',

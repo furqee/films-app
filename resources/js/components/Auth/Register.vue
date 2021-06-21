@@ -62,7 +62,7 @@
                             <span>{{ errors[0] }}</span>
                         </validation-provider>
                     </div>
-                    <button  type="submit" :disabled="invalid" class="btn btn-primary">
+                    <button type="submit" :disabled="invalid" class="btn btn-primary">
                         Register
                     </button>
                 </form>

@@ -6,10 +6,22 @@ import axios from "axios";
 import {extend} from 'vee-validate';
 import {required, email, confirmed, min } from 'vee-validate/dist/rules';
 import { ValidationProvider, ValidationObserver } from 'vee-validate';
+import Datepicker from 'vuejs-datepicker';
+import VueMoment from 'vue-moment';
+import VueSweetalert2 from 'vue-sweetalert2';
+// If you don't need the styles, do not connect
+import 'sweetalert2/dist/sweetalert2.min.css';
 
+/**
+ * register components globally
+ */
 Vue.component('ValidationProvider', ValidationProvider);
 Vue.component('ValidationObserver', ValidationObserver);
+Vue.component('datepicker', Datepicker);
 
+/**
+ * extending validators
+ */
 extend('required', {
     ...required,
     message: 'This field is required.'
@@ -30,12 +42,11 @@ extend('min', {
     message: 'Minimum 5 characters required.'
 });
 
-import VueSweetalert2 from 'vue-sweetalert2';
-
-// If you don't need the styles, do not connect
-import 'sweetalert2/dist/sweetalert2.min.css';
-
+/**
+ * Inject Dependencies
+ */
 Vue.use(VueSweetalert2);
+Vue.use(VueMoment);
 
 Vue.config.productionTip = false;
 
