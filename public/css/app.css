@@ -1,6 +1,8 @@
 @import url(https://fonts.googleapis.com/css?family=Nunito);
 @import url(https://fonts.googleapis.com/css?family=Arimo:400,700);
 @import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css);
+@import url(https://fonts.googleapis.com/css?family=Lato:300,400);
+@import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css);
 @charset "UTF-8";
 /*!
  * Bootstrap v4.6.0 (https://getbootstrap.com/)
@@ -10036,7 +10038,7 @@ a {
 }
 
 a:hover {
-  color: #6ABCEA;
+  color: #e3342f;
 }
 
 .container {
@@ -10068,7 +10070,7 @@ a:hover {
   border-top-right-radius: 10px;
 }
 
-.manOfSteel {
+.mainFilmDiv {
   background: url("http://henrycavill.org/images/Films/2013-Man-of-Steel/posters/3-Walmart-Superman-a.jpg");
   background-size: cover;
 }
@@ -10168,7 +10170,7 @@ a:hover {
 
 .info-section label {
   display: block;
-  color: rgba(0, 0, 0, 0.5);
+  color: #e3342f;
   margin-bottom: 0.5em;
   font-size: 9px;
 }
@@ -10192,9 +10194,147 @@ a:hover {
   }
 }
 .checked {
-  color: orange;
+  color: #e3342f;
 }
 
 .card {
   min-width: 400px;
+}
+
+.bg-dark {
+  background-color: #e3342f !important;
+}
+
+.form-control:focus {
+  color: #495057;
+  background-color: #fff;
+  border-color: #e3342f;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem #f1c2c1;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #e3342f;
+  border-color: #99221f;
+}
+
+.btn-primary:hover {
+  color: #fff;
+  background-color: #99221f;
+  border-color: #db4a46;
+}
+
+.btn-primary:focus, .btn-primary:disabled, .btn-primary.focus {
+  color: #fff;
+  background-color: #99221f;
+  border-color: #db4a46;
+  box-shadow: 0 0 0 0.2rem #f1c2c1;
+}
+
+.btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active, .show > .btn-primary.dropdown-toggle {
+  color: #fff;
+  background-color: #99221f;
+  border-color: #db4a46;
+}
+
+.btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active, .show > .btn-primary.dropdown-toggle {
+  color: #fff;
+  background-color: #99221f;
+  border-color: #db4a46;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+  color: #fff;
+}
+
+.nav-link {
+  display: block;
+  padding: 0.5rem 0rem;
+}
+
+.card-header {
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 0;
+  background-color: #e3342f;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+  color: white;
+}
+
+.comment_block {
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  padding: 10px;
+}
+.comment_block .new_comment {
+  width: 100%;
+  height: auto;
+  padding: 0;
+  border-top: 1px solid #e6e6e6;
+}
+.comment_block .new_comment .user_comment {
+  list-style-type: none;
+  -webkit-padding-start: 0px;
+          padding-inline-start: 0px;
+}
+.comment_block .new_comment .comment_body {
+  display: inline-block;
+  vertical-align: middle;
+  min-height: 65px;
+  margin-left: 10px;
+  padding: 5px 0px;
+  font-size: 0.9rem;
+  color: #555;
+  background-color: #FFF;
+  border-bottom: 2px solid #f2f2f2;
+}
+.comment_block .new_comment .comment_body .replied_to {
+  margin: 5px 0px;
+  background-color: #fafafa;
+  border-bottom: 2px solid #f2f2f2;
+  border-radius: 5px;
+}
+.comment_block .new_comment .comment_body .replied_to p {
+  padding: 5px;
+}
+.comment_block .new_comment .comment_body .replied_to span {
+  color: #6495ED;
+  margin-right: 2px;
+}
+.comment_block .new_comment .comment_toolbar {
+  width: 100%;
+}
+.comment_block .new_comment .comment_toolbar ul {
+  list-style-type: none;
+  padding-left: 8px;
+  font-size: 0;
+}
+.comment_block .new_comment .comment_toolbar ul li {
+  display: inline-block;
+  padding: 5px;
+  font-size: 0.7rem;
+  color: #e3342f;
+}
+.comment_block .new_comment .comment_toolbar ul li:hover {
+  cursor: pointer;
+}
+.comment_block .new_comment .comment_toolbar .comment_details {
+  display: inline-block;
+  vertical-align: middle;
+  width: 70%;
+  text-align: left;
+}
+.comment_block .new_comment .comment_toolbar .comment_tools {
+  display: inline-block;
+  vertical-align: middle;
+  width: 30%;
+  text-align: right;
+}
+.comment_block .new_comment .comment_toolbar .comment_tools li:hover {
+  color: #72100d;
+}
+.comment_block .new_comment .user:hover {
+  color: #e3342f;
+  text-decoration: underline;
 }

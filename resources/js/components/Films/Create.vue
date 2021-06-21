@@ -99,8 +99,8 @@
 
                     <div class="form-group">
                         <label for="photo">Photo</label>
-                        <validation-provider rules="" v-slot="{ errors }">
-                        <input type="file" accept="image/jpeg" @change="onSelectPhoto">
+                        <validation-provider rules="image" v-slot="{ errors }">
+                        <input type="file" accept="image/png, image/jpg, image/jpeg" @change="onSelectPhoto">
                         <span>{{ errors[0] }}</span>
                         </validation-provider>
                         <div style="max-width: 100px;">
@@ -187,7 +187,7 @@
                             fd.append(key, value, value.name);
                         break;
                         case 'release_date':
-                            fd.append(key, this.$moment(value).format('MM-DD-YYYY'));
+                            fd.append(key, this.$moment(value).format('YYYY-MM-DD hh:mm:ss'));
                         break;
                         default:
                             fd.append(key, value);

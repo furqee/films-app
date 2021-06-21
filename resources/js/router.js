@@ -60,12 +60,6 @@ const routes = [
         component: Verify,
     },
     {
-        path: "/profile",
-        name: "Profile",
-        beforeEnter: auth,
-        component: Profile,
-    },
-    {
         path: '/',
         redirect: '/films'
     },

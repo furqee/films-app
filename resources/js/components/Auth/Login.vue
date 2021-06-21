@@ -60,6 +60,12 @@ export default {
         };
     },
 
+    mounted() {
+        if (localStorage.getItem("authToken")) {
+            this.$router.push({ name: "Films" });
+        }
+    },
+
     methods: {
         ...mapActions("auth", ["sendLoginRequest"]),
 
@@ -70,6 +76,7 @@ export default {
                     return true;
                 }
                 this.$swal(res.data.message);
+                this.$router.push({ name: "Films" });
             });
         }
     }

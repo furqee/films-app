@@ -4,7 +4,7 @@ import router from "./router";
 import store from "./store";
 import axios from "axios";
 import {extend} from 'vee-validate';
-import {required, email, confirmed, min } from 'vee-validate/dist/rules';
+import {required, email, confirmed, min, image } from 'vee-validate/dist/rules';
 import { ValidationProvider, ValidationObserver } from 'vee-validate';
 import Datepicker from 'vuejs-datepicker';
 import VueMoment from 'vue-moment';
@@ -40,6 +40,11 @@ extend('confirmed', {
 extend('min', {
     ...min,
     message: 'Minimum 5 characters required.'
+});
+
+extend('image', {
+    ...image,
+    message: 'Image is invalid.'
 });
 
 /**

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Comment;
 use App\Models\Country;
 use App\Models\Film;
 use App\Models\Genre;
@@ -22,7 +23,14 @@ class DatabaseSeeder extends Seeder
         Genre::factory(5)->create();
         Film::factory(5)->create()->each(function ($film) {
             $genre = Genre::inRandomOrder()->first();
+            $user = User::inRandomOrder()->first();
             $film->genres()->attach($genre->id);
+            $comment = new Comment;
+            $comment->film_id = $film->id;
+            $comment->user_id = $user->id;
+            $comment->name = 'Test';
+            $comment->comment = 'comment';
+            $comment->save();
         });
     }
 }

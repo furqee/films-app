@@ -4,12 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Events\FilmCreated;
 use App\Http\Resources\FilmCollection;
+use App\Models\Comment;
 use App\Models\Film;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Resources\Film as FilmResource;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
@@ -37,11 +41,11 @@ class FilmController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string'],
-            'release_date' => ['required', 'date'],
+            'release_date' => ['required', 'date_format:Y-m-d H:i:s'],
             'rating' => ['required', 'digits_between:1,5'],
             'price' => ['required', 'numeric', 'min:1'],
             'country' => ['required', 'exists:countries,id'],
-            'photo' => ['required', 'image'],
+            'photo' => ['mimes:jpg,jpeg,png'],
         ]);
     }
 
@@ -58,10 +62,10 @@ class FilmController extends Controller
             'name' => $data['name'],
             'slug' => Str::slug($data['name'], '-'),
             'description' => $data['description'],
-            'release_date' => Carbon::parse($data['release_date'])->format('yy-m-d'),
+            'release_date' => Carbon::parse($data['release_date'])->format('Y-m-d h:i:s'),
             'rating' => $data['rating'],
             'price' => $data['price'],
-            'photo' => $data['photo_path'] ?? '',
+            'photo' => $data['photo_path'] ?? 'placeholder.png',
         ]);
     }
 
@@ -76,9 +80,10 @@ class FilmController extends Controller
     {
         $this->validator($request->all())->validate();
 
-        if ($request->file('photo')->isValid()) {
-            $path = $request->file('photo')->store('photos');
-            $request->request->add(['photo_path' => $path]);
+        if ($request->hasFile('photo') && $request->file('photo')->isValid()) {
+            $path = $request->file('photo')->store('public/film-images');
+            $path = explode('/', $path);
+            $request->request->add(['photo_path' => $path[2]]);
         }
 
         event(new FilmCreated($film = $this->createFilm($request->all())));
@@ -112,5 +117,52 @@ class FilmController extends Controller
             return new Response('', 204);
         }
         return new Response('', 204);
+    }
+
+    /**
+     * Add comment.
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function comment(Request $request) :JsonResponse
+    {
+        $validator = Validator::make($request->all(), [
+            'film_id' => 'required|exists:films,slug',
+            'name' => 'required',
+            'comment' => 'required',
+        ], [
+            'film_id.required' => 'Film reference not found.'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(
+                [
+                    'message' => $validator->errors()->first()
+                ],
+                403
+            );
+        }
+
+        $film = Film::where('slug', $request->film_id)->first();
+
+        $comment = new Comment;
+        $comment->film_id = $film->id;
+        $comment->user_id = $request->user()->id;
+        $comment->name = $request->name;
+        $comment->comment = $request->comment;
+
+        if ($comment->save()) {
+            return response()->json([
+                'message' => 'Comment added successfully.'
+            ]);
+        }
+
+        return response()->json(
+            [
+                'message' => 'Something went wrong. Contact administrator.'
+            ],
+            404
+        );
     }
 }

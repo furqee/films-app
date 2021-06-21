@@ -32,9 +32,6 @@
                             <router-link class="nav-link" to="/register">Register</router-link>
                         </li>
                         <li class="nav-item" v-show="user">
-                            <router-link class="nav-link" to="/profile">Profile</router-link>
-                        </li>
-                        <li class="nav-item" v-show="user">
                             <a class="nav-link" href="#" @click="logout">Logout</a>
                         </li>
                     </ul>

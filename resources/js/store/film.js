@@ -91,9 +91,12 @@ export default {
         addCommentRequest({commit}, data) {
             commit("setErrors", {}, {root: true});
             return axios
-                .post(process.env.MIX_API_URL + "/films", data)
+                .post(process.env.MIX_API_URL + "/comment", data)
                 .then(response => {
-                    commit("setFilmData", response.data);
+                    return response
+                })
+                .catch(error => {
+                    return error
                 });
         },
     }

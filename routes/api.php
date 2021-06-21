@@ -32,6 +32,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
      * Film
      */
     Route::resource('films', FilmController::class)->only(['store', 'destroy']);
+    Route::post('comment', [FilmController::class, 'comment'])->name('comment');
     Route::get('countryList', [CountryController::class, 'countryList'])->name('countryList');
 });
 

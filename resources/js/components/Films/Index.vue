@@ -2,7 +2,7 @@
     <div class="home mt-5">
 
         <div class="movie-card" v-for="item in filmCollectionData.data" :key="item.id">
-            <div class="movie-header manOfSteel" v-bind:style="{ backgroundImage: 'url(/storage/film-images/' + item.photo + ')' }">
+            <div class="movie-header mainFilmDiv" v-bind:style="{ backgroundImage: 'url(/storage/film-images/' + item.photo + ')' }">
                 <div class="header-icon-container">
                     <a href="#">
                         <i class="material-icons header-icon"></i>

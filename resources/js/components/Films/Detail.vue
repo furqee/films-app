@@ -2,7 +2,7 @@
     <div class="mt-5">
 
         <div class="movie-card" v-if="filmData.data">
-            <div class="movie-header manOfSteel"
+            <div class="movie-header mainFilmDiv"
                  v-bind:style="{ backgroundImage: 'url(/storage/film-images/' + filmData.data.photo + ')' }">
                 <div class="header-icon-container">
                     <a href="#">
@@ -15,6 +15,15 @@
                     <a href="#">
                         <h3 class="movie-title">{{ filmData.data.name }}</h3>
                     </a>
+                </div>
+                <div class="movie-info">
+                    <div class="info-section">
+                        <label>Genres</label>
+                        <span
+                            v-for="index in filmData.data.genres"
+                        > {{ index.name }},</span>
+                    </div>
+                    <div class="info-section"></div>
                 </div>
                 <div class="movie-info">
                     <div class="info-section">
@@ -76,9 +85,9 @@
                                 :class="{ 'is-invalid': errors.description }"
                                 id="description"
                                 placeholder="Enter film description"
-                                v-model="comment.text"
+                                v-model="comment.comment"
                             ></textarea>
-                            <span>{{ errors[0] }}</span>
+                                <span>{{ errors[0] }}</span>
                             </validation-provider>
                         </div>
                         <button type="submit" :disabled="invalid" class="btn btn-primary">
@@ -86,6 +95,47 @@
                         </button>
                     </form>
                 </ValidationObserver>
+                <div class="movie-info">
+                    <div class="info-section">
+                        <label>Comments</label>
+                    </div><!--Description-->
+                    <div class="info-section"></div>
+                </div>
+                <!-- comments container -->
+                <div class="comment_block">
+                    <!-- new comment -->
+                    <div class="new_comment">
+
+                        <!-- build comment -->
+                        <ul class="user_comment">
+                            <!-- start user replies -->
+                            <li v-for="index in filmData.data.comments" >
+                                <!-- the comment body -->
+                                <div class="comment_body">
+                                    <div class="replied_to">
+                                        <p>
+                                            <span class="user">{{ index.name }}:</span>
+                                            {{ index.comment }}
+                                        </p>
+                                    </div>
+                                </div>
+                                <!-- comments toolbar -->
+                                <div class="comment_toolbar">
+                                    <!-- inc. date and time -->
+                                    <div class="comment_details">
+                                        <ul>
+                                            <li><i class="fa fa-clock-o"></i> {{ index.created_at | moment("hh:mm A") }}</li>
+                                            <li><i class="fa fa-calendar"></i> {{ index.created_at | moment("dddd, MMMM Do YYYY") }} </li>
+                                            <li><i class="fa fa-pencil"></i> <span class="user">{{ index.user.name }}</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
             </div><!--movie-content-->
         </div><!--movie-card-->
 
@@ -104,7 +154,8 @@ export default {
         return {
             comment: {
                 name: null,
-                text: null
+                comment: null,
+                film_id: null,
             }
         };
     },
@@ -119,8 +170,14 @@ export default {
         ...mapActions("film", ["getFilmData", "addCommentRequest"]),
 
         create() {
-            this.addCommentRequest(data).then(() => {
-                this.$router.push({name: "Films"});
+            this.comment.film_id = this.slug;
+            this.addCommentRequest(this.comment).then((res) => {
+                if (res.response !== undefined) {
+                    this.$swal(res.response.data.message);
+                    return true;
+                }
+                this.$swal(res.data.message);
+                this.getFilmData(this.slug);
             });
         }
     }
