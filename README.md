@@ -36,7 +36,7 @@ Node 14.17
 
 ```
 
-## Frontend
+## Installation Instructions for Backend
 
 ```
 1. npm install
